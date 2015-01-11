@@ -2,7 +2,6 @@
 #
 
 # Some helper functions. Also sets current working directory.
-setwd("~/Dropbox/Study/Data Science/ExData_Plotting1") 
 source("helpers.R")
 
 # Acquire the data, and read it into a BFDF
