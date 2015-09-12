@@ -6,13 +6,19 @@
 
 # printf: Similar to C's printf to make diagnostic messages easier
 #
-printf <- function(...) invisible(message(sprintf(...)))
+printf <- function(...) {
+    invisible(message(sprintf(...)))
+}
 
 
 # cacheLoad: Given a URL and a local file name, download the URL if the local file
 # does not already exist.
 #
-cacheLoad <- function(url, localFile, ...) {
+cacheLoad <- function(url, dataDir, localFile, ...) {
+    localFile <- paste(dataDir, localFile, sep = "/")
+    if ( !file.exists(dataDir)) {
+        dir.create(dataDir)
+    }
     if ( file.exists(localFile)) {
         printf("Using cached version of %s", localFile)
     }
@@ -27,9 +33,9 @@ cacheLoad <- function(url, localFile, ...) {
 
 # fetchData: Load the data required for this assignment
 #
-fetchData <- function(zipUrl, fileName) {
-    zipFile  <- cacheLoad(zipUrl, paste(fileName, "zip", sep = "."))
-    txtFile  <- paste(fileName, "txt", sep = ".")                     
+fetchData <- function(zipUrl, dataDir, fileName) {
+    zipFile  <- cacheLoad(zipUrl, dataDir, paste(fileName, "zip", sep = "."))
+    txtFile  <- paste(paste(dataDir, fileName, sep="/"), "txt", sep = ".")                     
     if ( file.exists(txtFile)) {
         printf("Data file %s already unzipped.", zipFile)
     }  else {
